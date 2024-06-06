@@ -1,7 +1,57 @@
 import React, { useState, useEffect } from "react";
-import { Box, Grid, Typography, Container } from "@mui/material";
+import { Grid, Typography, Container } from "@mui/material";
+import { CSSTransition, SwitchTransition } from "react-transition-group";
+import styled from "@emotion/styled";
+import { css, jsx } from "@emotion/react";
+
+const transitionStyles = css`
+  .fade-enter {
+    opacity: 0;
+  }
+  .fade-enter-active {
+    opacity: 1;
+    transition: opacity 1000ms;
+  }
+  .fade-exit {
+    opacity: 1;
+  }
+  .fade-exit-active {
+    opacity: 0;
+    transition: opacity 1000ms;
+  }
+`;
+
+const StyledBox = styled.div`
+  background-color: grey.800;
+  min-height: 100vh;
+`;
+
+const BackgroundBox = styled.div<{ background: string }>`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background: ${(props) => props.background};
+  min-height: 700px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
+const PlaceholderBox = styled.div`
+  min-height: 700px;
+`;
+
+const ColorBox = styled.div<{ background: string }>`
+  background: ${(props) => props.background};
+  min-height: 200px;
+`;
 
 const HomePage: React.FC = () => {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   const [backgroundIndex, setBackgroundIndex] = useState(0);
 
   const backgrounds = [
@@ -13,29 +63,42 @@ const HomePage: React.FC = () => {
   useEffect(() => {
     const interval = setInterval(() => {
       setBackgroundIndex((prevIndex) => (prevIndex + 1) % backgrounds.length);
-    }, 5000);
+    }, 3500);
 
     return () => {
       clearInterval(interval);
     };
   }, []);
 
-  return (
-    <>
-      <Box
-        sx={{
-          background: backgrounds[backgroundIndex],
-          minHeight: "700px",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          transition: "background 1s ease",
-        }}
-      >
-        <Typography variant="h3" align="center" color="white">
-          Welcome to the Forest
-        </Typography>
-      </Box>
+  return jsx(
+    "div",
+    {
+      css: [
+        {
+          backgroundColor: "grey.800",
+          minHeight: "100vh",
+        },
+        transitionStyles,
+      ],
+    },
+    <React.Fragment>
+      <SwitchTransition>
+        <CSSTransition
+          key={backgroundIndex}
+          addEndListener={(node, done) =>
+            node.addEventListener("transitionend", done, false)
+          }
+          classNames="fade"
+        >
+          <BackgroundBox background={backgrounds[backgroundIndex]}>
+            <Typography variant="h3" align="center" color="white">
+              Welcome to the Forest
+            </Typography>
+          </BackgroundBox>
+        </CSSTransition>
+      </SwitchTransition>
+
+      <PlaceholderBox />
 
       <Container maxWidth="lg">
         <Grid container spacing={4} sx={{ marginTop: 4 }}>
@@ -48,15 +111,13 @@ const HomePage: React.FC = () => {
             </Typography>
           </Grid>
           <Grid item xs={12} md={6}>
-            {/* <img src="path/to/image1.jpg" alt="Forest" style={{ width: '100%' }} /> */}
-            <Box sx={{ background: "lightgreen", minHeight: "200px" }}></Box>
+            <ColorBox background="lightgreen" />
           </Grid>
         </Grid>
 
         <Grid container spacing={4} sx={{ marginTop: 4 }}>
           <Grid item xs={12} md={6}>
-            {/* <img src="path/to/image2.jpg" alt="Forest" style={{ width: '100%' }} /> */}
-            <Box sx={{ background: "lightblue", minHeight: "200px" }}></Box>
+            <ColorBox background="lightblue" />
           </Grid>
           <Grid item xs={12} md={6}>
             <Typography variant="body1" paragraph>
@@ -68,7 +129,7 @@ const HomePage: React.FC = () => {
           </Grid>
         </Grid>
       </Container>
-    </>
+    </React.Fragment>
   );
 };
 

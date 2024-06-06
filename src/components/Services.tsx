@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useEffect } from "react";
+
 import {
   Box,
   Typography,
@@ -11,6 +12,9 @@ import {
 import { CheckCircle } from "@mui/icons-material";
 
 const ServicesPage: React.FC = () => {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
   return (
     <>
       <Box

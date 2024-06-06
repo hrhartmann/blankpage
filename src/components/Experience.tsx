@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useEffect } from "react";
+
 import {
   Box,
   Typography,
@@ -13,6 +14,9 @@ import { CheckCircle } from "@mui/icons-material";
 import { experienceData } from "../content/experienceData";
 
 const ExperiencePage: React.FC = () => {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
   return (
     <>
       <Box

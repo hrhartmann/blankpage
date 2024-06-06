@@ -1,52 +1,37 @@
 import React from "react";
 import { AppBar, Toolbar, Button, Box } from "@mui/material";
-import { Link as RouterLink } from "react-router-dom";
+import { Link as RouterLink, useLocation } from "react-router-dom";
 
 const Navbar: React.FC = () => {
+  const location = useLocation();
+
+  const navItems = [
+    { text: "Home", path: "/" },
+    { text: "Nosotros", path: "/nosotros" },
+    { text: "Servicios", path: "/servicios" },
+    { text: "Experiencia", path: "/experiencia" },
+    { text: "Contacto", path: "/contacto" },
+  ];
+
   return (
     <AppBar position="fixed">
       <Toolbar>
         <Box sx={{ flexGrow: 1, display: "flex", justifyContent: "center" }}>
-          <Button
-            color="error"
-            sx={{ borderRadius: 0 }}
-            component={RouterLink}
-            to="/"
-          >
-            Home
-          </Button>
-          <Button
-            color="inherit"
-            sx={{ borderRadius: 0 }}
-            component={RouterLink}
-            to="/nosotros"
-          >
-            Nosotros
-          </Button>
-          <Button
-            color="inherit"
-            sx={{ borderRadius: 0 }}
-            component={RouterLink}
-            to="/servicios"
-          >
-            Servicios
-          </Button>
-          <Button
-            color="inherit"
-            sx={{ borderRadius: 0 }}
-            component={RouterLink}
-            to="/experiencia"
-          >
-            Experiencia
-          </Button>
-          <Button
-            color="inherit"
-            sx={{ borderRadius: 0 }}
-            component={RouterLink}
-            to="/contacto"
-          >
-            Contacto
-          </Button>
+          {navItems.map((item) => (
+            <Button
+              key={item.path}
+              color={location.pathname === item.path ? "error" : "inherit"}
+              sx={{
+                borderRadius: 0,
+                borderBottom: location.pathname === item.path ? 2 : 0,
+                borderColor: "error.main",
+              }}
+              component={RouterLink}
+              to={item.path}
+            >
+              {item.text}
+            </Button>
+          ))}
         </Box>
       </Toolbar>
     </AppBar>

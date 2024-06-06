@@ -1,22 +1,26 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Box, Grid, Typography, Container } from "@mui/material";
 
 const UsPage: React.FC = () => {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
   return (
     <>
-      <Box
-        sx={{
-          background: "linear-gradient(to right, #4A7023, #9DC183)",
-          minHeight: "600px",
+      <div
+        style={{
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
+          minHeight: "600px",
         }}
       >
-        <Typography variant="h3" align="center" color="white">
-          Nosotros
-        </Typography>
-      </Box>
+        <img
+          src="/images/image1.jpg"
+          alt="albase"
+          style={{ maxWidth: "100%" }}
+        />
+      </div>
 
       <Container maxWidth="lg">
         <Grid container spacing={4} sx={{ marginTop: 4 }}>
